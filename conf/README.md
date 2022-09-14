@@ -1,0 +1,1 @@
+# Exemplos de arquivos de configurações para o Prometheus
