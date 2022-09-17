@@ -36,10 +36,81 @@ Abaixo segue um exemplo de uso dessa métrica com clintes em Ruby e Python
   
 ## Gauge
 
+- Python:
+  ```python
+  from prometheus_client import Gauge
+
+  g = Gauge('my_inprogress_requests', 'Description of gauge')
+  g.inc()      # Increment by 1
+  g.dec(10)    # Decrement by given value
+  g.set(4.2)   # Set to a given value
+  ```
+
+- Ruby:
+  ```ruby
+  require 'prometheus/client'
+
+  gauge = Prometheus::Client::Gauge.new(:room_temperature_celsius, docstring: '...', labels: [:room])
+
+  # set a value
+  gauge.set(21.534, labels: { room: 'kitchen' })
+  # retrieve the current value for a given label set
+  gauge.get(labels: { room: 'kitchen' })
+  # => 21.534
+  # increment the value (default is 1)
+  gauge.increment(labels: { room: 'kitchen' })
+  # => 22.534
+  # decrement the value by a given value
+  gauge.decrement(by: 5, labels: { room: 'kitchen' })
+  # => 17.534
+  ```
+
 ## Histogram
+
+- Python:
+  ```python
+  from prometheus_client import Histogram
+  
+  h = Histogram('request_latency_seconds', 'Description of histogram')
+  h.observe(4.7)    # Observe 4.7 (seconds in this case)
+  ```
+
+- Ruby:
+  ```ruby
+  require 'prometheus/client'
+
+  histogram = Prometheus::Client::Histogram.new(:service_latency_seconds, docstring: '...', labels: [:service])
+
+  # record a value
+  histogram.observe(Benchmark.realtime { service.call(arg) }, labels: { service: 'users' })
+  # retrieve the current bucket values
+  histogram.get(labels: { service: 'users' })
+  # => { 0.005 => 3, 0.01 => 15, 0.025 => 18, ..., 2.5 => 42, 5 => 42, 10 = >42 }
+  ```
 
 ## Summary
 
+- Python:
+  ```python
+  from prometheus_client import Summary
+  
+  s = Summary('request_latency_seconds', 'Description of summary')
+  s.observe(4.7)    # Observe 4.7 (seconds in this case)
+  ```
+- Ruby:
+  ```ruby
+  require 'prometheus/client'
+
+  summary = Prometheus::Client::Summary.new(:service_latency_seconds, docstring: '...', labels: [:service])
+
+  # record a value
+  summary.observe(Benchmark.realtime { service.call() }, labels: { service: 'database' })
+  # retrieve the current sum and total values
+  summary_value = summary.get(labels: { service: 'database' })
+  summary_value['sum'] # => 123.45
+  summary_value['count'] # => 100
+  ```
+  
 ## Referências
 1. https://prometheus.io/docs/concepts/metric_types/ 
 2. https://pt.wikipedia.org/wiki/Fun%C3%A7%C3%A3o_mon%C3%B3tona 
