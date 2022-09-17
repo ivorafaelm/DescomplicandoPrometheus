@@ -1,6 +1,6 @@
 # Tipos de dados (métricas)
 
-As bibliotecas de cliente do Prometheus podem oferecer quatro tipos básicos de métricas. Estas métricas são importantes para o entendimento e construção dos exporters, tendo em vista que os tipos serão utilizados no momento das instanciação das métricas através das bibliotecas. O servidor do Prometheus ainda não faz uso destes tipos de informação, fazendo com que o dado seja transforma em uma série de tempo não tipada. Na documentação do Prometheus é feita uma consideração de que isto pode mudar no futuro. 
+As bibliotecas de cliente do Prometheus podem oferecer quatro tipos básicos de métricas. Estas métricas são importantes para o entendimento e construção dos exporters, tendo em vista que os tipos serão utilizados no momento da instanciação das métricas através das bibliotecas. O servidor do Prometheus ainda não faz uso destes tipos de informações, fazendo com que o dado seja transformado em uma série de tempo não tipada. Na documentação do Prometheus é feita uma consideração de que isto pode mudar no futuro. 
 
 ## Counter (Contador)
 
@@ -39,3 +39,7 @@ Abaixo segue um exemplo de uso dessa métrica com clintes em Ruby e Python
 ## Histogram
 
 ## Summary
+
+## Referências
+[1] https://prometheus.io/docs/concepts/metric_types/
+[2] https://pt.wikipedia.org/wiki/Fun%C3%A7%C3%A3o_mon%C3%B3tona
