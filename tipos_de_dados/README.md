@@ -36,6 +36,8 @@ Abaixo segue um exemplo de uso dessa métrica com clintes em Ruby e Python
   
 ## Gauge
 
+Um *Gauge* é um tipo de métrica que representa um valor numérico único que tem a capacidade de arbitrariamente ser acrescido ou decrescido. Este tipo de métrica é utilizada para representação de valores que podem ser medidos, tais como temperaturas ou uso de algum recurso computacional (memória, cpu, disco). Ela também pode ser utilizada para valores que podem subir ou descer e representam uma contagem momentânea, tal como a quantidade de acessos concorrentes.
+
 - Python:
   ```python
   from prometheus_client import Gauge
@@ -66,6 +68,16 @@ Abaixo segue um exemplo de uso dessa métrica com clintes em Ruby e Python
   ```
 
 ## Histogram
+
+Um *histogram* representa uma amostra de observações, tais como a duração de requisições ou tamanhos de repostas, e faz a contagem deles em estruturas configuráveis denominadas de buckets. Ele também tem a capacidade de prover a somre de todos os valores observados.
+
+O *histogram* representa um tipo de métrica um pouco mais elaborada do que os *counters* e "gauges". A partir de uma métrica do tipo *histogram* com o nome *<basename>* temos a exposição de múltiplas séries de tempo durante um mesmo *scrape*:
+
+* Contadores acumulativos para os buckets que contêm as observações e expostos com o seguinte formato *<basename>_bucket{le="<upper inclusive bound>"}*;
+* A soma de todos os vlaores observados, expostos como *<basename>_sum*;
+* A contagem de eventos que foram observados, expostos como *<basename>_count*;
+
+Neste tipo de métrica é possível fazer uso da função *histogram_quantile()* para calcular quantiles de *histograms* ou até mesmo agregações de *histograms*. Os histograms também podem ser utilizados para efetuar o score **Apdex** (Apdex - Application Performance Index - é um padrão aberto desenvolvido por um conjunto de empresas para mensurar a performance de aplicações).
 
 - Python:
   ```python
