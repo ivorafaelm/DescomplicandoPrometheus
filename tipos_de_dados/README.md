@@ -8,7 +8,7 @@ A métrica do tipo counter representa um valor monótono que somente pode ser in
 
 Como exemplos podemos ter as seguintes situações de uso: representação do número de requisições a um servidor, quantidade de tarefas completas, número de determinados tipos de erros, etc.
 
-Abaixo segue um exemplo de uso dessa métrica com clintes em Ruby e Python
+**Exemplos de utilização através das bibliotecas de cliente em Ruby e Python:**
 
 - Python:
   ```python
@@ -37,6 +37,8 @@ Abaixo segue um exemplo de uso dessa métrica com clintes em Ruby e Python
 ## Gauge
 
 Um *Gauge* é um tipo de métrica que representa um valor numérico único que tem a capacidade de arbitrariamente ser acrescido ou decrescido. Este tipo de métrica é utilizada para representação de valores que podem ser medidos, tais como temperaturas ou uso de algum recurso computacional (memória, cpu, disco). Ela também pode ser utilizada para valores que podem subir ou descer e representam uma contagem momentânea, tal como a quantidade de acessos concorrentes.
+
+**Exemplos de utilização através das bibliotecas de cliente em Ruby e Python:**
 
 - Python:
   ```python
@@ -79,6 +81,8 @@ O *histogram* representa um tipo de métrica um pouco mais elaborada do que os *
 
 Neste tipo de métrica é possível fazer uso da função *histogram_quantile()* para calcular quantiles de *histograms* ou até mesmo agregações de *histograms*. Os histograms também podem ser utilizados para efetuar o score **Apdex** (Apdex - Application Performance Index - é um padrão aberto desenvolvido por um conjunto de empresas para mensurar a performance de aplicações).
 
+**Exemplos de utilização através das bibliotecas de cliente em Ruby e Python:**
+
 - Python:
   ```python
   from prometheus_client import Histogram
@@ -101,6 +105,18 @@ Neste tipo de métrica é possível fazer uso da função *histogram_quantile()*
   ```
 
 ## Summary
+
+De forma similar aos *histograms*, as métricas do tipo *summary* também representam amostras de observações, tais como durações de requisições e tamanhos de respostas. Enquanto este tipo de dado também provê uma contagem total das observações e a soma de todos os valores observados, ele também é capaz de calcular *quantiles* configuráveis sobre uma janela de tempo deslizante.
+
+Obs. Quantis (*quantiles*) são pontos estabelecidos em intervalos regulares a partir da função distribuição acumulada (FDA), de uma variável aleatória. Os quantis dividem os dados ordenados em q subconjuntos de dados de dimensão essencialmente igual. Dessa forma dão origem a q-Quantis; os quantis são estabelecidos a partir de pontos de corte que determinam as fronteiras entre os subconjuntos consecutivos. Visto de outra forma, o k-ésimo q-quantil é o valor x tal que a probabilidade de um evento da variável aleatória será inferior x é no máximo k/q e a probabilidade da variável aleatória ser superior ou igual a x é pelo menos (q-k)/q. Há q - 1 quantis, sendo k um inteiro satisfazendo 0 < k < q. 
+
+Uma métrica do tipo *summary* com o nome de *<basename>* também é capaz de expor múltiplas séries de tempo durante um *scrape*:
+
+* Fazer o streaming de *φ-quantiles* (0 ≤ φ ≤ 1) de eventos observaods, sendo expostos como *<basename>{quantile="<φ>"}*
+* A soma total de todos os valores observados, sendo espostos como *<basename>_sum*
+* A contagem de eventos que foram observados, sendo expostos como <basename>_count
+
+**Exemplos de utilização através das bibliotecas de cliente em Ruby e Python:**
 
 - Python:
   ```python
@@ -126,3 +142,6 @@ Neste tipo de métrica é possível fazer uso da função *histogram_quantile()*
 ## Referências
 1. https://prometheus.io/docs/concepts/metric_types/ 
 2. https://pt.wikipedia.org/wiki/Fun%C3%A7%C3%A3o_mon%C3%B3tona 
+3. https://en.wikipedia.org/wiki/Apdex
+4. https://pt.wikipedia.org/wiki/Quantil
+
