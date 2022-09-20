@@ -32,3 +32,8 @@ Os principais componentes disponibilizados para downaload são:
 * *SaltStack:* [saltstack-formulas/prometheus-formula](https://github.com/saltstack-formulas/prometheus-formula)
 
 *Obs.* Algumas soluções também fazem uso das opções disponibilizadas pelos sistemas de gerenciamento de configuração, sendo capazes de entregar essa forma de instalação através de uma interface própria, como é o caso do [SUSE Manager](https://www.suse.com/pt-br/products/suse-manager/). Nele as fórmulas do Salt Stack ficam disponíveis para aplicação em uma máquina ou conjunto de máquinas, e podem compreender inclusive a instalação e configuração de exporters (tudo efetuado através da interface, facilitando o uso destas funções para as equipes que administram os servidores).
+
+## Referências:
+1. https://prometheus.io/docs/prometheus/latest/installation/
+2. https://prometheus.io/download/
+3. https://quay.io/repository/prometheus/prometheus
