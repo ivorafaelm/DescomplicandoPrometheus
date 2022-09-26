@@ -24,6 +24,52 @@ Os principais componentes disponibilizados para downaload são:
 
 ## 3. Utilizando uma solução em container Docker:
 
+Atualmente todos os serviços do Prometheus estão disponíveis em imagens Docker e podem ser baixados através do [Docker Hub](https://hub.docker.com/r/prom/prometheus/).
+
+Executar o Prometheus em um container Docker é extremamente simples. O seguinte comando abaixo pode ser usado como referência:
+
+  docker run -p 9090:9090 prom/prometheus
+
+Este comando fará com que um container contendo a imagem do Prometheus seja executado, tendo como base uma configuração padrão e o serviço exposto na porta 9090. 
+
+A imagem básica do Prometheus disponibilizada através do Docker Hub utiliza um volume para armazenar as métricas correntes. Para ambientes de produção é altamente recomendado a utilização de *volumes nomeados* (*named volumes*) para facilitar o gerenciamento dos dados em operações de atualização do Prometheus.
+
+*Obs.* Volumes nomeados ou *named volumes* são volumes em que o Docker faz o gerenciamento do local de criação, além de, neste caso, fazer a associação com um nome pré-estabelecido. Os *named volumes* podem ser criados e referenciados de acordo com o exemplo abaixo:
+
+  docker volume create volumenomeado
+
+  docker run -v volumenomeado:/caminho/do/volume/no/container
+
+**Volumes e bind-mount**
+
+Bind-mount do arquivo prometheus.yml a partir do host:
+
+  docker run \
+    -p 9090:9090 \
+    -v /path/to/prometheus.yml:/etc/prometheus/prometheus.yml \
+    prom/prometheus
+
+Bind-mount do diretório do host contendo o arquivo prometheus.yml para o container em /etc/prometheus:
+
+  docker run \
+    -p 9090:9090 \
+    -v /path/to/config:/etc/prometheus \
+    prom/prometheus
+
+**Imagens customizadas**
+
+Para evitar o gerenciamento de um arquivo de configuração no próprio host ou através da montagem de um volume, a configuração do Prometheus pode ser customizada e acrescentada em uma imagem Docker customizada. Esta abordagem funciona muito bem para configurações que podem ser utilizada em múltiplos ambientes.
+
+Para a construção de uma imagem customizada é interessante a criação de um diretório contendo o arquivo de configuração do Prometheus (prometheus.yml). Neste mesmo diretório é necessário efetuar a criação de um Dockerfile com o seguinte conteúdo:
+
+  FROM prom/prometheus
+  ADD prometheus.yml /etc/prometheus/
+
+Após a criação e customização do Dockerfile é necessário efetuar o build da imagem (no shell), conforme mostrado abaixo:
+
+  docker build -t my-prometheus .
+  docker run -p 9090:9090 my-prometheus
+
 ## 4. Através de um sistema de gerenciamento de configuração:
 
 * *Ansible:* [Cloud Alchemy/ansible-prometheus](https://github.com/cloudalchemy/ansible-prometheus)
